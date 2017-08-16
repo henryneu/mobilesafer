@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="功能列表"
+        style="@style/TitleText"/>
+
+    <neu.edu.cn.mobilesafer.ui.FocusedTextView
+        android:id="@+id/text_marquee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:text="看似体魄健硕的登山家王石的心脏里其实装了六个支架，而他在日本看病的经历也成为网络热帖，发人深思！"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <GridView
+        android:id="@+id/home_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="3"
+        android:verticalSpacing="10dp"/>
+
+</LinearLayout>

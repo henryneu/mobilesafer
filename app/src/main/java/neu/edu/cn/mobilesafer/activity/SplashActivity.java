@@ -13,6 +13,8 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.animation.AlphaAnimation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -45,7 +47,8 @@ public class SplashActivity extends AppCompatActivity {
     private static final int IO_EXC_MSG = 103;
     // JSON解析异常时所发出消息的标志位
     private static final int JSON_EXC_MSG = 104;
-
+    // SplashActivity界面的根布局
+    private RelativeLayout mRelativeLayout;
     // 文本框：用于显示版本名称
     private TextView mTextView;
 
@@ -101,6 +104,9 @@ public class SplashActivity extends AppCompatActivity {
         initView();
         // 初始化数据Data
         initData();
+        AlphaAnimation animation = new AlphaAnimation(0, 1);
+        animation.setDuration(3000);
+        mRelativeLayout.startAnimation(animation);
     }
 
     /**
@@ -341,6 +347,7 @@ public class SplashActivity extends AppCompatActivity {
      * 初始化视图View
      */
     private void initView() {
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.rl_splash);
         mTextView = (TextView) findViewById(R.id.text_version_name);
     }
 }
