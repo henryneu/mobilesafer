@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_setting_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp">
 
     <TextView
-        android:id="@+id/text_name"
+        android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="更新设置"
@@ -16,15 +17,18 @@
         android:id="@+id/text_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_name"
+        android:layout_below="@id/text_title"
         android:text="自动更新已关闭"
         android:textColor="@color/settingTextColor"
         android:textSize="15sp" />
-
+    <!--为了不让CheckBox拦截处理点击事件，设置其不可点击及获取焦点-->
     <CheckBox
         android:id="@+id/check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true" />
 
