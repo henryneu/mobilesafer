@@ -31,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import neu.edu.cn.mobilesafer.R;
+import neu.edu.cn.mobilesafer.util.SharePreferenceUtil;
 import neu.edu.cn.mobilesafer.util.StreamUtil;
 import neu.edu.cn.mobilesafer.util.ToastUtil;
 
@@ -118,7 +119,13 @@ public class SplashActivity extends AppCompatActivity {
         // 获取本地的当前版本的版本号
         mLocalVersionCode = getVersionCode();
         // 检测服务器端应用版本最新的版本号
-        checkVersion();
+        if (SharePreferenceUtil.getBooleanFromSharePreference(this, "autoupdate", false)) {
+            // 如果已选中自动更新，则向服务器端检测版本号
+            checkVersion();
+        } else {
+            // 如果没有选中，则延迟4s后跳转到应用主界面
+            mHandler.sendEmptyMessageDelayed(UPDATE_MSG, 4000);
+        }
     }
 
     /**
@@ -136,6 +143,7 @@ public class SplashActivity extends AppCompatActivity {
     private void updateApplicationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
         builder.setIcon(R.mipmap.ic_launcher);
+        builder.setTitle("更新提醒");
         builder.setMessage(mVersionDes);
         builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
             @Override

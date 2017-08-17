@@ -1,6 +1,7 @@
 package neu.edu.cn.mobilesafer.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
@@ -52,10 +53,12 @@ public class SettingsItem extends RelativeLayout {
         mCheckBox.setChecked(isCheck);
         if (isCheck) {
             // 开启
-            mTextDes.setText("自动跟新已开启");
+            mTextDes.setTextColor(Color.GREEN);
+            mTextDes.setText("自动更新已开启");
         } else {
             // 关闭
-            mTextDes.setText("自动跟新已关闭");
+            mTextDes.setTextColor(Color.RED);
+            mTextDes.setText("自动更新已关闭");
         }
     }
 
