@@ -3,6 +3,7 @@ package neu.edu.cn.mobilesafer.ui;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
@@ -16,11 +17,21 @@ import neu.edu.cn.mobilesafer.R;
 
 public class SettingsItem extends RelativeLayout {
 
+    private static final String tag = "SettingsItem";
+    // 自定义View的命名空间
+    private static final String namespace = "http://schemas.android.com/apk/res/neu.edu.cn.mobilesafer";
+    //
     private TextView mTextTitle;
 
     private TextView mTextDes;
 
     private CheckBox mCheckBox;
+
+    private String mTitle;
+
+    private String mDesoff;
+
+    private String mDeson;
 
     public SettingsItem(Context context) {
         this(context, null);
@@ -33,6 +44,8 @@ public class SettingsItem extends RelativeLayout {
     public SettingsItem(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.settings_item, this);
+        // 初始化自定义属性值
+        initAttrs(attrs);
         // 初始化View
         initView();
     }
@@ -54,20 +67,34 @@ public class SettingsItem extends RelativeLayout {
         if (isCheck) {
             // 开启
             mTextDes.setTextColor(Color.GREEN);
-            mTextDes.setText("自动更新已开启");
+            mTextDes.setText(mDeson);
         } else {
             // 关闭
             mTextDes.setTextColor(Color.RED);
-            mTextDes.setText("自动更新已关闭");
+            mTextDes.setText(mDesoff);
         }
+    }
+
+    /**
+     * 初始化自定义属性值
+     * @param attrs 构造方法中所获取到的自定义属性的集合
+     */
+    private void initAttrs(AttributeSet attrs) {
+        mTitle = attrs.getAttributeValue(namespace, "title");
+        mDesoff = attrs.getAttributeValue(namespace, "desoff");
+        mDeson = attrs.getAttributeValue(namespace, "deson");
+        Log.i(tag, mTitle);
+        Log.i(tag, mDesoff);
+        Log.i(tag, mDeson);
     }
 
     /**
      * 初始化View
      */
     private void initView() {
-        mTextTitle = (TextView) findViewById(R.id.text_des);
+        mTextTitle = (TextView) findViewById(R.id.text_title);
         mTextDes = (TextView) findViewById(R.id.text_des);
         mCheckBox = (CheckBox) findViewById(R.id.check_box);
+        mTextTitle.setText(mTitle);
     }
 }

@@ -11,9 +11,23 @@
         android:text="设置中心" />
 
     <neu.edu.cn.mobilesafer.ui.SettingsItem
+        xmlns:mobilesafer="http://schemas.android.com/apk/res/neu.edu.cn.mobilesafer"
         android:id="@+id/settings_item_update"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        mobilesafer:title="更新设置"
+        mobilesafer:desoff="自动更新已关闭"
+        mobilesafer:deson="自动更新已开启">
+    </neu.edu.cn.mobilesafer.ui.SettingsItem>
+
+    <neu.edu.cn.mobilesafer.ui.SettingsItem
+        xmlns:mobilesafer="http://schemas.android.com/apk/res/neu.edu.cn.mobilesafer"
+        android:id="@+id/settings_item_attribution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        mobilesafer:title="电话归属地的显示设置"
+        mobilesafer:desoff="来电归属地已关闭"
+        mobilesafer:deson="来电归属地已开启">
     </neu.edu.cn.mobilesafer.ui.SettingsItem>
 
 </LinearLayout>
