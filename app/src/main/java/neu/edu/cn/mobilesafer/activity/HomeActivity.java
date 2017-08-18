@@ -120,7 +120,8 @@ public class HomeActivity extends AppCompatActivity {
                 String resetPassword = resetPasswordText.getText().toString();
                 if (! TextUtils.isEmpty(setPassword) && ! TextUtils.isEmpty(resetPassword)) {
                     if (setPassword.equals(resetPassword)) {
-                        Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+                        // Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
                         startActivity(intent);
                         // 隐藏设置密码对话框
                         dialog.dismiss();
@@ -173,7 +174,8 @@ public class HomeActivity extends AppCompatActivity {
                         ConstantValues.MOBILE_SAFE_PSD, "");
                 if (! TextUtils.isEmpty(encodeConfirmPassword) && ! TextUtils.isEmpty(storagePassword)) {
                     if (encodeConfirmPassword.equals(storagePassword)) {
-                        Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+                        // Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
                         startActivity(intent);
                         // 隐藏设置密码对话框
                         dialog.dismiss();

@@ -106,7 +106,7 @@ public class SplashActivity extends AppCompatActivity {
         initView();
         // 初始化数据Data
         initData();
-        AlphaAnimation animation = new AlphaAnimation(0, 1);
+        AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);
         mRelativeLayout.startAnimation(animation);
     }

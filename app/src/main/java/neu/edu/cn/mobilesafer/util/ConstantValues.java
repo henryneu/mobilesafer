@@ -15,4 +15,9 @@ public class ConstantValues {
      * 是否设置手机防盗密码的kry值
      */
     public static final String MOBILE_SAFE_PSD = "mobile_safe_psd";
+
+    /**
+     * 手机防盗设置是否已设置完成
+     */
+    public static final String SETUP_OVER = "setup_over";
 }
