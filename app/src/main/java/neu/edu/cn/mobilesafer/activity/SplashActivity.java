@@ -31,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import neu.edu.cn.mobilesafer.R;
+import neu.edu.cn.mobilesafer.util.ConstantValues;
 import neu.edu.cn.mobilesafer.util.SharePreferenceUtil;
 import neu.edu.cn.mobilesafer.util.StreamUtil;
 import neu.edu.cn.mobilesafer.util.ToastUtil;
@@ -119,7 +120,7 @@ public class SplashActivity extends AppCompatActivity {
         // 获取本地的当前版本的版本号
         mLocalVersionCode = getVersionCode();
         // 检测服务器端应用版本最新的版本号
-        if (SharePreferenceUtil.getBooleanFromSharePreference(this, "autoupdate", false)) {
+        if (SharePreferenceUtil.getBooleanFromSharePreference(this, ConstantValues.OPEN_UPDATE, false)) {
             // 如果已选中自动更新，则向服务器端检测版本号
             checkVersion();
         } else {

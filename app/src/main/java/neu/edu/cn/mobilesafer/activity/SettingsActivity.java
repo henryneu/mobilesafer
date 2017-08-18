@@ -6,10 +6,12 @@ import android.view.View;
 
 import neu.edu.cn.mobilesafer.R;
 import neu.edu.cn.mobilesafer.ui.SettingsItem;
+import neu.edu.cn.mobilesafer.util.ConstantValues;
 import neu.edu.cn.mobilesafer.util.SharePreferenceUtil;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    // 设置是否开启自动更新
     private SettingsItem mSettingsItemUpdate;
 
     @Override
@@ -25,7 +27,8 @@ public class SettingsActivity extends AppCompatActivity {
      */
     private void initView() {
         mSettingsItemUpdate = (SettingsItem) findViewById(R.id.settings_item_update);
-        mSettingsItemUpdate.setCheck(SharePreferenceUtil.getBooleanFromSharePreference(SettingsActivity.this, "autoupdate", false));
+        mSettingsItemUpdate.setCheck(SharePreferenceUtil.getBooleanFromSharePreference(SettingsActivity.this,
+                ConstantValues.OPEN_UPDATE, false));
         mSettingsItemUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,11 +36,11 @@ public class SettingsActivity extends AppCompatActivity {
                 if (isCheck) {
                     // 如果已经被选中，点击后则为取消，状态设置为false，并将相应的状态值存入SharedPreferences中
                     mSettingsItemUpdate.setCheck(false);
-                    SharePreferenceUtil.putBooleanInSharePreference(SettingsActivity.this, "autoupdate", false);
+                    SharePreferenceUtil.putBooleanToSharePreference(SettingsActivity.this, ConstantValues.OPEN_UPDATE, false);
                 } else {
                     // 如果为被选中，点击后则为选中，状态设置为true，并将相应的状态值存入SharedPreferences中
                     mSettingsItemUpdate.setCheck(true);
-                    SharePreferenceUtil.putBooleanInSharePreference(SettingsActivity.this, "autoupdate", true);
+                    SharePreferenceUtil.putBooleanToSharePreference(SettingsActivity.this, ConstantValues.OPEN_UPDATE, true);
                 }
             }
         });

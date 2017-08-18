@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".activity.TestActivity"></activity>
     </application>
 
 </manifest>

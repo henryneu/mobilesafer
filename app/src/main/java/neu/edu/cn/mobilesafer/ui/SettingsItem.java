@@ -18,19 +18,19 @@ import neu.edu.cn.mobilesafer.R;
 public class SettingsItem extends RelativeLayout {
 
     private static final String tag = "SettingsItem";
-    // 自定义View的命名空间
+    // 自定义SettingsItem的命名空间
     private static final String namespace = "http://schemas.android.com/apk/res/neu.edu.cn.mobilesafer";
-    //
+    // 自定义SettingsItem中title文本框
     private TextView mTextTitle;
-
+    // 自定义SettingsItem中描述信息文本框
     private TextView mTextDes;
-
+    // 自定义SettingsItem中CheckBox控件
     private CheckBox mCheckBox;
-
+    // title文本框中显示的标题信息
     private String mTitle;
-
+    // 描述信息文本框中显示的描述信息（关）
     private String mDesoff;
-
+    // 描述信息文本框中显示的描述信息（开）
     private String mDeson;
 
     public SettingsItem(Context context) {
@@ -63,6 +63,7 @@ public class SettingsItem extends RelativeLayout {
      * @param isCheck 是否作为开启的变量，由点击过程中传递
      */
     public void setCheck(boolean isCheck) {
+        // 设置CheckBox的状态
         mCheckBox.setChecked(isCheck);
         if (isCheck) {
             // 开启
@@ -80,6 +81,10 @@ public class SettingsItem extends RelativeLayout {
      * @param attrs 构造方法中所获取到的自定义属性的集合
      */
     private void initAttrs(AttributeSet attrs) {
+        for (int i=0; i<attrs.getAttributeCount(); i++) {
+            Log.i(tag, "name = " + attrs.getAttributeName(i));
+            Log.i(tag, "value = " + attrs.getAttributeValue(i));
+        }
         mTitle = attrs.getAttributeValue(namespace, "title");
         mDesoff = attrs.getAttributeValue(namespace, "desoff");
         mDeson = attrs.getAttributeValue(namespace, "deson");
