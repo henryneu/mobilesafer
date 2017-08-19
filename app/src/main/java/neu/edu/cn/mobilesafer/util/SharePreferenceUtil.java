@@ -64,4 +64,16 @@ public class SharePreferenceUtil {
         }
         return mSharedPreferences.getString(key, defValue);
     }
+
+    /**
+     * 从SharedPreferences中移除指定键值的数据值
+     * @param context 上下文环境
+     * @param key 所要移除数据的键值
+     */
+    public static void removeStringFromSharePreference(Context context, String key) {
+        if (mSharedPreferences == null) {
+            mSharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        }
+        mSharedPreferences.edit().remove(key).commit();
+    }
 }

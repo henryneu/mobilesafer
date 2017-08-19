@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    // 按钮被点击后显示的背景图片
+    <item android:state_pressed="true" android:drawable="@drawable/function_greenbutton_pressed"/>
+    <item android:state_focused="true" android:drawable="@drawable/function_greenbutton_pressed"/>
+    // 默认情况下显示的背景图片
+    <item android:drawable="@drawable/function_greenbutton_normal"/>
+
+</selector>

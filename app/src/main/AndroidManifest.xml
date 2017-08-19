@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".MyMobileApplication"
@@ -20,16 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.HomeActivity"></activity>
-
-        <activity android:name=".activity.SettingsActivity"></activity>
-
-        <activity android:name=".activity.TestActivity"></activity>
-
-        <activity android:name=".activity.SetupOverActivity"></activity>
-
-        <activity android:name=".activity.SetupFirstActivity"></activity>
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.SetupOverActivity" />
+        <activity android:name=".activity.SetupFirstActivity" />
+        <activity android:name=".activity.SetupSecondActivity" />
+        <activity android:name=".activity.SetupThirdActivity" />
+        <activity android:name=".activity.SetupFourthActivity" />
     </application>
 
 </manifest>

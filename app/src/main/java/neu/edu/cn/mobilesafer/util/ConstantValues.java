@@ -20,4 +20,9 @@ public class ConstantValues {
      * 手机防盗设置是否已设置完成
      */
     public static final String SETUP_OVER = "setup_over";
+
+    /**
+     * 手机是否已经存储了SIM卡序列号
+     */
+    public static final String SIM_NUMBER = "sim_number";
 }

@@ -21,7 +21,7 @@ public class SetupOverActivity extends AppCompatActivity {
         if (setupOver) {
             setContentView(R.layout.activity_setup_over);
         } else {
-            Intent intent = new Intent(this, SetupFirstActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SetupFirstActivity.class);
             startActivity(intent);
             finish();
         }

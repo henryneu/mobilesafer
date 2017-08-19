@@ -6,52 +6,32 @@
 
     <TextView
         style="@style/TitleText"
-        android:text="1.欢迎使用手机防盗"/>
+        android:text="2.手机卡绑定"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="你的手机防盗卫士："
+        android:text="通过绑定SIM卡："
         android:textSize="18sp"
         android:textColor="#000000"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:gravity="center"
-        android:text="SIM卡变更报警"
+        android:text="下次重启手机如果发现SIM卡变化，就会发送报警短信"
         android:textSize="18sp"
         android:textColor="#000000"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <neu.edu.cn.mobilesafer.ui.SettingsItem
+        xmlns:mobilesafer="http://schemas.android.com/apk/res/neu.edu.cn.mobilesafer"
+        android:id="@+id/settings_item_bind"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:gravity="center"
-        android:text="GPS追踪"
-        android:textSize="18sp"
-        android:textColor="#000000"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:gravity="center"
-        android:text="远程锁屏"
-        android:textSize="18sp"
-        android:textColor="#000000"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/star_big_on"
-        android:gravity="center"
-        android:text="远程销毁数据"
-        android:textSize="18sp"
-        android:textColor="#000000"/>
-
+        mobilesafer:title="点击绑定SIM"
+        mobilesafer:desoff="SIM卡未绑定"
+        mobilesafer:deson="SIM卡已绑定">
+    </neu.edu.cn.mobilesafer.ui.SettingsItem>
     <LinearLayout
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
@@ -60,12 +40,12 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/presence_online"/>
+            android:background="@android:drawable/presence_invisible"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/presence_invisible"/>
+            android:background="@android:drawable/presence_online"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -86,7 +66,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/phone"/>
+            android:background="@drawable/bind"/>
+
+        <Button
+            style="@style/prePage"/>
 
         <Button
             style="@style/nextPage"/>
