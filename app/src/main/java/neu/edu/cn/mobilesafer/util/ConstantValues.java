@@ -25,4 +25,9 @@ public class ConstantValues {
      * 手机是否已经存储了SIM卡序列号
      */
     public static final String SIM_NUMBER = "sim_number";
+
+    /**
+     * 已选中联系人电话号码的key
+     */
+    public static final String CONTACT_PHONE = "CONTACT_PHONE";
 }

@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     // 按下状态下按钮的背景色
-    <item android:state_selected="true" android:drawable="@drawable/btn_green_pressed" />
+    <item android:state_pressed="true" android:drawable="@drawable/btn_green_pressed" />
     <item android:state_focused="true" android:drawable="@drawable/btn_green_pressed" />
     // 默认状态下按钮的背景色
     <item android:drawable="@drawable/btn_green_normal" />
