@@ -10,7 +10,7 @@
     <application
         android:name=".MyMobileApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_my"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -31,6 +31,7 @@
         <activity android:name=".activity.SetupThirdActivity" />
         <activity android:name=".activity.SetupFourthActivity" />
         <activity android:name=".activity.ContactActivity" />
+        <activity android:name=".activity.BaseSetupActivity"></activity>
     </application>
 
 </manifest>

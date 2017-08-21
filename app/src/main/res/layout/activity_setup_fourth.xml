@@ -9,9 +9,11 @@
         android:text="4.恭喜您，设置完成"/>
 
     <CheckBox
+        android:id="@+id/security_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="打钩，开启防盗保护"/>
+        android:text="打钩，开启防盗保护"
+        android:textSize="18sp"/>
 
     <LinearLayout
         android:gravity="center_horizontal"

@@ -139,12 +139,26 @@ public class ContactActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = View.inflate(getApplicationContext(), R.layout.contact_list_item, null);
-            TextView contactListName = (TextView) view.findViewById(R.id.contact_list_name);
-            TextView contactListPhone = (TextView) view.findViewById(R.id.contact_list_phone);
-            contactListName.setText(getItem(position).get("name"));
-            contactListPhone.setText(getItem(position).get("phone"));
+            View view;
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                view = View.inflate(getApplicationContext(), R.layout.contact_list_item, null);
+                viewHolder = new ViewHolder();
+                viewHolder.contactListName = (TextView) view.findViewById(R.id.contact_list_name);
+                viewHolder.contactListPhone = (TextView) view.findViewById(R.id.contact_list_phone);
+                view.setTag(viewHolder);
+            } else {
+                view = convertView;
+                viewHolder = (ViewHolder) view.getTag();
+            }
+            viewHolder.contactListName.setText(getItem(position).get("name"));
+            viewHolder.contactListPhone.setText(getItem(position).get("phone"));
             return view;
+        }
+
+        class ViewHolder {
+            TextView contactListName;
+            TextView contactListPhone;
         }
     }
 }

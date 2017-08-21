@@ -29,5 +29,10 @@ public class ConstantValues {
     /**
      * 已选中联系人电话号码的key
      */
-    public static final String CONTACT_PHONE = "CONTACT_PHONE";
+    public static final String CONTACT_PHONE = "contact_phone";
+
+    /**
+     * 是否已打开手机防盗功能的key
+     */
+    public static final String OPEN_SECURITY = "open_security";
 }

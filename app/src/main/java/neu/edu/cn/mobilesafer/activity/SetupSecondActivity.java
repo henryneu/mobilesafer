@@ -3,7 +3,6 @@ package neu.edu.cn.mobilesafer.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,7 +13,7 @@ import neu.edu.cn.mobilesafer.util.ConstantValues;
 import neu.edu.cn.mobilesafer.util.SharePreferenceUtil;
 import neu.edu.cn.mobilesafer.util.ToastUtil;
 
-public class SetupSecondActivity extends AppCompatActivity {
+public class SetupSecondActivity extends BaseSetupActivity {
 
     // 是否绑定手机SIM卡的设置选项
     private SettingsItem mSettingsItemBind;
@@ -25,6 +24,38 @@ public class SetupSecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setup_second);
         // 初始化布局文件中View控件
         initView();
+    }
+
+    /**
+     * 布局文件中的View被点击时将调用此方法
+     */
+    @Override
+    public void showNextPage() {
+        String simSerialNumber = SharePreferenceUtil.getStringFromSharePreference(getApplicationContext(),
+                ConstantValues.SIM_NUMBER, "");
+        if (!TextUtils.isEmpty(simSerialNumber)) {
+            // 若从SharedPreferences中取出的SIM卡序列号不为空，则可以跳转到下一步
+            Intent intent = new Intent(getApplicationContext(), SetupThirdActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            // 否者提示用户异常
+            ToastUtil.show(getApplicationContext(), "必须先绑定SIM卡序列号");
+        }
+        // 开启平移动画效果
+        overridePendingTransition(R.anim.next_in_anim, R.anim.pre_out_anim);
+    }
+
+    /**
+     * 布局文件中的View被点击时将调用此方法
+     */
+    @Override
+    public void showPrePage() {
+        Intent intent = new Intent(getApplicationContext(), SetupFirstActivity.class);
+        startActivity(intent);
+        finish();
+        // 开启平移动画效果
+        overridePendingTransition(R.anim.pre_in_anim, R.anim.next_out_anim);
     }
 
     /**
@@ -63,35 +94,5 @@ public class SetupSecondActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    /**
-     * 布局文件中的View被点击时将调用此方法
-     *
-     * @param view 布局文件中设置了onClick属性的View
-     */
-    public void prePage(View view) {
-        Intent intent = new Intent(getApplicationContext(), SetupFirstActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    /**
-     * 布局文件中的View被点击时将调用此方法
-     *
-     * @param view 布局文件中设置了onClick属性的View
-     */
-    public void nextPage(View view) {
-        String simSerialNumber = SharePreferenceUtil.getStringFromSharePreference(getApplicationContext(),
-                ConstantValues.SIM_NUMBER, "");
-        if (!TextUtils.isEmpty(simSerialNumber)) {
-            // 若从SharedPreferences中取出的SIM卡序列号不为空，则可以跳转到下一步
-            Intent intent = new Intent(getApplicationContext(), SetupThirdActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            // 否者提示用户异常
-            ToastUtil.show(getApplicationContext(), "必须先绑定SIM卡序列号");
-        }
     }
 }
