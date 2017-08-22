@@ -9,7 +9,6 @@ import android.widget.TextView;
 import neu.edu.cn.mobilesafer.R;
 import neu.edu.cn.mobilesafer.util.ConstantValues;
 import neu.edu.cn.mobilesafer.util.SharePreferenceUtil;
-import neu.edu.cn.mobilesafer.util.ToastUtil;
 
 /**
  * Created by neuHenry on 2017/8/18.
@@ -36,11 +35,19 @@ public class SetupOverActivity extends AppCompatActivity {
      * 初始化布局文件中的View
      */
     private void initView() {
+        TextView selectedSecurityText = (TextView) findViewById(R.id.selected_security_num);
+        // 读取并设置手机安全号码
+        String selectedSecurityNum = SharePreferenceUtil.getStringFromSharePreference(getApplicationContext(),
+                ConstantValues.CONTACT_PHONE, "");
+        selectedSecurityText.setText(selectedSecurityNum);
         TextView resetSetupTextView = (TextView) findViewById(R.id.reset_setup_text_view);
         resetSetupTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show(getApplicationContext(), "");
+                // 点击重新进入设置向导
+                Intent intent = new Intent(getApplicationContext(), SetupFirstActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
