@@ -36,7 +36,7 @@
         <activity android:name=".activity.SetupThirdActivity" />
         <activity android:name=".activity.SetupFourthActivity" />
         <activity android:name=".activity.ContactActivity" />
-        <activity android:name=".activity.BaseSetupActivity" />
+        <activity android:name=".activity.ToolActivity" />
 
         <receiver
             android:name=".receiver.RootReceiver"
@@ -48,13 +48,17 @@
         </receiver>
         <receiver
             android:name=".receiver.SmsReceiver"
-            android:enabled="true"
-            android:exported="true" />
+            android:enabled="true" />
+        <receiver
+            android:name=".receiver.DeviceAdmin"
+            android:enabled="true" />
 
         <service
             android:name=".service.LocationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".activity.PhoneNumQueryActivity"></activity>
     </application>
 
 </manifest>
