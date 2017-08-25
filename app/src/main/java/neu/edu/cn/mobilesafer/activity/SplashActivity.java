@@ -24,6 +24,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -109,6 +110,58 @@ public class SplashActivity extends AppCompatActivity {
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);
         mRelativeLayout.startAnimation(animation);
+        // 初始化数据库
+        initDB();
+    }
+
+    /**
+     * 初始化数据库
+     */
+    private void initDB() {
+        // 初始化来点归属地数据库,并将数据库拷贝到应用Files下
+        initAddressDB("address.db");
+    }
+
+    /**
+     * 初始化来点归属地数据库,并将数据库拷贝到应用Files下
+     *
+     * @param databaseName 数据库的名字
+     */
+    private void initAddressDB(String databaseName) {
+        // 获取应用所在的文件路径
+        File filePath = getFilesDir();
+        // 创建一个新的文件
+        File file = new File(filePath, databaseName);
+        // 文件若已存在，则退出数据库的拷贝过程
+        if (file.exists() && file.length() > 0) {
+            return;
+        } else {
+            InputStream inputStream = null;
+            FileOutputStream fos = null;
+            try {
+                // 打开assets文件目录下的数据库文件
+                inputStream = getAssets().open(databaseName);
+                fos = new FileOutputStream(file);
+                byte[] byteBuffer = new byte[1024];
+                int temp = -1;
+                while ((temp = inputStream.read(byteBuffer)) != -1) {
+                    // 读取到的数据流写入到指定的文件中
+                    Log.i(tag, "temp = " + temp);
+                    fos.write(byteBuffer, 0, temp);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (inputStream != null && fos != null) {
+                    try {
+                        inputStream.close();
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     /**

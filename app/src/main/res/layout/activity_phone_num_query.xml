@@ -9,20 +9,21 @@
         android:text="号码归属地查询"/>
 
     <EditText
-        android:id="@+id/et_phone_number"
+        android:id="@+id/input_query_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone" >
     </EditText>
 
     <Button
-        android:onClick="query"
+        android:id="@+id/query_phone_num_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="查询" />
+        android:text="查询"
+        android:textSize="18sp"/>
 
     <TextView
-        android:id="@+id/tv_address_info"
+        android:id="@+id/show_phone_address_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
