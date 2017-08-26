@@ -35,4 +35,9 @@ public class ConstantValues {
      * 是否已打开手机防盗功能的key
      */
     public static final String OPEN_SECURITY = "open_security";
+
+    /**
+     * 是否已打开来点归属地功能的key
+     */
+    public static final String OPEN_ATTRIBUTION = "open_attribution";
 }

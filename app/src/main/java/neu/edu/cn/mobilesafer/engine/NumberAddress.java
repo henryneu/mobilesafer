@@ -14,7 +14,7 @@ public class NumberAddress {
 
     public static String addressPathName = "data/data/neu.edu.cn.mobilesafer/files/address.db";
 
-    private static String mAddress = "";
+    private static String mAddress = "未知号码";
 
     /**
      * 根据电话号码查询电话号码的归属地
@@ -22,6 +22,7 @@ public class NumberAddress {
      * @param phoneNumber 待查询的电话号码
      */
     public static String getPhoneAddress(String phoneNumber) {
+        mAddress = "未知号码";
         // 构建正则表达式
         String regularExpression = "^1[3458]\\d{9}$";
         // 获取指定路径下数据库的对象
