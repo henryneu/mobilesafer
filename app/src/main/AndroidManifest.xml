@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".MyMobileApplication"
@@ -40,6 +41,9 @@
         <activity android:name=".activity.ContactActivity" />
         <activity android:name=".activity.ToolActivity" />
         <activity android:name=".activity.PhoneNumQueryActivity" />
+        <activity
+            android:name=".activity.ToastLocationActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <receiver
             android:name=".receiver.RootReceiver"
@@ -63,8 +67,7 @@
         <service
             android:name=".service.AddressService"
             android:enabled="true"
-            android:exported="true">
-        </service>
+            android:exported="true"></service>
     </application>
 
 </manifest>

@@ -37,7 +37,17 @@ public class ConstantValues {
     public static final String OPEN_SECURITY = "open_security";
 
     /**
-     * 是否已打开来点归属地功能的key
+     * 来电归属地Toast背景的样式
      */
-    public static final String OPEN_ATTRIBUTION = "open_attribution";
+    public static final String TOAST_STYLE = "toast_style";
+
+    /**
+     * 触摸事件结束时当前View所在位置左上角的X值
+     */
+    public static final String LOCATION_X = "location_x";
+
+    /**
+     * 触摸事件结束时当前View所在位置左上角的Y值
+     */
+    public static final String LOCATION_Y = "location_y";
 }

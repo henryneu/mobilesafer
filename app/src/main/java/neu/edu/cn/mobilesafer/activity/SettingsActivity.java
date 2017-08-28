@@ -1,12 +1,16 @@
 package neu.edu.cn.mobilesafer.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import neu.edu.cn.mobilesafer.R;
 import neu.edu.cn.mobilesafer.service.AddressService;
+import neu.edu.cn.mobilesafer.ui.SettingsClickItem;
 import neu.edu.cn.mobilesafer.ui.SettingsItem;
 import neu.edu.cn.mobilesafer.util.ConstantValues;
 import neu.edu.cn.mobilesafer.util.SharePreferenceUtil;
@@ -14,10 +18,18 @@ import neu.edu.cn.mobilesafer.util.SmsServiceUtil;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final String tag = "SettingsActivity";
+
     // 设置是否开启自动更新
     private SettingsItem mSettingsItemUpdate;
     // 设置是否开启电话归属地
     private SettingsItem mSettingsItemAttribution;
+    // 设置Toast背景样式选择
+    private SettingsClickItem mSettingsClickItem;
+    // 设置Toast所在位置
+    private SettingsClickItem mToastLocationClickItem;
+
+    private final String[] desItems = {"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +39,10 @@ public class SettingsActivity extends AppCompatActivity {
         initUpdateItemView();
         // 初始化来点归属地选项视图
         initAttributionItemView();
+        // 初始化Toast样式背景选择视图
+        initToastStyleItemView();
+        // 初始化自定义Toast的位置拖拽视图
+        initToastLocationItemView();
     }
 
     /**
@@ -55,13 +71,14 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
-     * 初始化来点归属地选项视图
+     * 初始化来电归属地选项视图
      */
     private void initAttributionItemView() {
         // 是否打开来电归属地开关的Item
         mSettingsItemAttribution = (SettingsItem) findViewById(R.id.settings_item_attribution);
         // 查看所给服务是否正在运行
         boolean isRunning = SmsServiceUtil.isRunning(this, "neu.edu.cn.mobilesafer.service.AddressService");
+        Log.i(tag, "isRunning:" + isRunning);
         mSettingsItemAttribution.setCheck(isRunning);
         mSettingsItemAttribution.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +90,54 @@ public class SettingsActivity extends AppCompatActivity {
                 } else {
                     startService(new Intent(SettingsActivity.this, AddressService.class));
                 }
+            }
+        });
+    }
+
+    /**
+     * 初始化Toast样式背景选择视图
+     */
+    private void initToastStyleItemView() {
+        // 设置Toast背景样式选择
+        mSettingsClickItem = (SettingsClickItem) findViewById(R.id.settings_item_toast_style);
+        mSettingsClickItem.setClickItemTitle("设置归属地提示框显示风格");
+        int toastStyleId = SharePreferenceUtil.getIntFromSharePreference(getApplicationContext(),
+                ConstantValues.TOAST_STYLE, 0);
+        mSettingsClickItem.setClickItemDes(desItems[toastStyleId]);
+        mSettingsClickItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                builder.setIcon(R.drawable.settings);
+                builder.setTitle("归属地提示框背景风格");
+                int toastStyleId = SharePreferenceUtil.getIntFromSharePreference(getApplicationContext(),
+                        ConstantValues.TOAST_STYLE, 0);
+                builder.setSingleChoiceItems(desItems, toastStyleId, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharePreferenceUtil.putIntToSharePreference(getApplicationContext(),
+                                ConstantValues.TOAST_STYLE, which);
+                        mSettingsClickItem.setClickItemDes(desItems[which]);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
+            }
+        });
+    }
+
+    /**
+     * 初始化自定义Toast的位置拖拽视图
+     */
+    private void initToastLocationItemView() {
+        mToastLocationClickItem = (SettingsClickItem) findViewById(R.id.settings_item_toast_location);
+        mToastLocationClickItem.setClickItemTitle("归属地提示框的位置");
+        mToastLocationClickItem.setClickItemDes("设置归属地提示框的位置");
+        mToastLocationClickItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SettingsActivity.this, ToastLocationActivity.class));
             }
         });
     }

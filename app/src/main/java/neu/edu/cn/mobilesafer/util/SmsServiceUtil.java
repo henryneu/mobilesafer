@@ -20,7 +20,7 @@ public class SmsServiceUtil {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningServiceInfo> serviceTask = activityManager.getRunningServices(100);
         for (ActivityManager.RunningServiceInfo runningServiceInfo : serviceTask) {
-            if (serviceName.equals(runningServiceInfo.service.getClass())) {
+            if (serviceName.equals(runningServiceInfo.service.getClassName())) {
                 return true;
             }
         }

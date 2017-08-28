@@ -355,7 +355,7 @@ public class SplashActivity extends AppCompatActivity {
                 Message msg = Message.obtain();
                 try {
                     //URL url = new URL("http://10.0.2.2:8080/update.json");
-                    URL url = new URL("http://113.225.223.249:8080/update.json");
+                    URL url = new URL("http://113.225.219.41:8080/update.json");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setConnectTimeout(2000);
                     connection.setReadTimeout(2000);

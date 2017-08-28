@@ -30,4 +30,16 @@
         mobilesafer:deson="来电归属地已开启">
     </neu.edu.cn.mobilesafer.ui.SettingsItem>
 
+    <neu.edu.cn.mobilesafer.ui.SettingsClickItem
+        android:id="@+id/settings_item_toast_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </neu.edu.cn.mobilesafer.ui.SettingsClickItem>
+
+    <neu.edu.cn.mobilesafer.ui.SettingsClickItem
+        android:id="@+id/settings_item_toast_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </neu.edu.cn.mobilesafer.ui.SettingsClickItem>
+
 </LinearLayout>

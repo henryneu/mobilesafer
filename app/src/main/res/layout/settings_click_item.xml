@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_setting_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/click_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/settingTextColor"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/click_item_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/click_item_title"
+        android:textColor="@color/settingTextColor"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/select_arrow"
+        android:background="@drawable/arrow_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="8dp"
+        android:layout_centerVertical="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/click_item_des"
+        android:background="#000000" />
+
+</RelativeLayout>
