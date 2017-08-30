@@ -2,4 +2,5 @@
     <string name="app_name">mobilesafer</string>
     <string name="mobile_safer_device_admin">mobilesaferdeviceadmin</string>
     <string name="mobile_safer_device_admin_description">一键激活，一键清除，一键锁屏,一键卸载</string>
+    <string name="hook_phone_num">输入拦截电话号码</string>
 </resources>

@@ -1,8 +1,10 @@
 package neu.edu.cn.mobilesafer.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
@@ -43,6 +45,8 @@ public class AddressService extends Service {
     private int[] mToastViewBackgroundId;
     // 已选定的自定义Toast的背景色的id
     private int mToastBackgroundId;
+    // 动态监听去电的广播接收器
+    private InnerOutCallReceiver mInnerOutCallReceiver;
 
     // Handler处理子线程传递过来的信息
     private Handler mHandler = new Handler() {
@@ -61,7 +65,20 @@ public class AddressService extends Service {
         mTelephonyManager.listen(myPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         mToastViewBackgroundId = new int[]{R.drawable.call_locate_white, R.drawable.call_locate_orange,
                 R.drawable.call_locate_blue, R.drawable.call_locate_gray, R.drawable.call_locate_green};
+        // 动态注册广播接收者，当收到去电时，显示自定义Toast，并查询归属地信息
+        mInnerOutCallReceiver = new InnerOutCallReceiver();
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_NEW_OUTGOING_CALL);
+        registerReceiver(mInnerOutCallReceiver, intentFilter);
         super.onCreate();
+    }
+
+    class InnerOutCallReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String outPhone = getResultData();
+            showAddressView(outPhone);
+        }
     }
 
     @Override
@@ -71,8 +88,14 @@ public class AddressService extends Service {
 
     @Override
     public void onDestroy() {
-        // 取消电话状态监听服务
-        mTelephonyManager.listen(myPhoneStateListener, PhoneStateListener.LISTEN_NONE);
+        // 取消来电的电话状态监听服务
+        if (mTelephonyManager != null && myPhoneStateListener != null) {
+            mTelephonyManager.listen(myPhoneStateListener, PhoneStateListener.LISTEN_NONE);
+        }
+        // 取消去电的广播监听
+        if (mInnerOutCallReceiver != null) {
+            unregisterReceiver(mInnerOutCallReceiver);
+        }
         super.onDestroy();
     }
 

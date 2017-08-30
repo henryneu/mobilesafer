@@ -69,6 +69,11 @@ public class HomeActivity extends AppCompatActivity {
                         // 点击进入手机防盗模块，根据逻辑打开相应对话框
                         showMobileSaferDialog();
                         break;
+                    case 1:
+                        // 点击进入通讯卫士模块
+                        Intent intentCommunication = new Intent(HomeActivity.this, CommunicationGuardActivity.class);
+                        startActivity(intentCommunication);
+                        break;
                     case 7:
                         // 点击进入高级工具选项
                         Intent intentTool = new Intent(HomeActivity.this, ToolActivity.class);
