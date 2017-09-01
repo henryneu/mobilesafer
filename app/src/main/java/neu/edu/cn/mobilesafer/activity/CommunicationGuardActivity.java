@@ -6,8 +6,10 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,8 @@ import neu.edu.cn.mobilesafer.util.ToastUtil;
 
 public class CommunicationGuardActivity extends AppCompatActivity {
 
+    private static final String tag = "ComuncateGuardActivity";
+
     // 黑名单中添加号码的按钮
     private Button mAddBlackNumButton;
     // 用于展示已加入黑名单的电话号码的列表
@@ -35,14 +39,22 @@ public class CommunicationGuardActivity extends AppCompatActivity {
     private BlackNumberDao mBlackNumDao;
     // 黑名单的数据适配器
     private BlackNumListAdapter mBlackNumListAdapter;
-    // 默认选中拦截电话的模式
-    private int mode = 1;
+    // 选中拦截电话号码的模式
+    private int mode = -1;
+    // 判断是否正在加载新的数据,防止重复加载数据
+    private boolean mIsLoad = false;
+    // 数据库表中总的条目数
+    private int mDBCount;
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            mBlackNumListAdapter = new BlackNumListAdapter();
-            mBlackNumListView.setAdapter(mBlackNumListAdapter);
+            if (mBlackNumListAdapter == null) {
+                mBlackNumListAdapter = new BlackNumListAdapter();
+                mBlackNumListView.setAdapter(mBlackNumListAdapter);
+            } else {
+                mBlackNumListAdapter.notifyDataSetChanged();
+            }
         }
     };
 
@@ -50,7 +62,6 @@ public class CommunicationGuardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communication_guard);
-        mBlackNumDao = BlackNumberDao.getInstance(getApplicationContext());
         // 初始化布局文件中的View
         initView();
         // 初始化ListView中的数据值
@@ -64,7 +75,14 @@ public class CommunicationGuardActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mBlackNumList = mBlackNumDao.findAll();
+                // 获取操作数据库列表的对象
+                mBlackNumDao = BlackNumberDao.getInstance(getApplicationContext());
+                // 一次查询数据库表中的所有数据
+                // mBlackNumList = mBlackNumDao.findAll();
+                mDBCount = mBlackNumDao.getCount();
+                Log.i(tag, "mDBCount:" + mDBCount);
+                // 一次查询数据库表中的部分数据（20条）
+                mBlackNumList = mBlackNumDao.findPart(0);
                 mHandler.sendEmptyMessage(0);
             }
         }).start();
@@ -83,6 +101,43 @@ public class CommunicationGuardActivity extends AppCompatActivity {
                 showBlackNumDialog();
             }
         });
+        // 黑名单列表添加滚动事件监听
+        mBlackNumListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            // 黑名单列表的滚动状态发生改变时调用
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (mBlackNumList != null) {
+                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+                            && mBlackNumListView.getLastVisiblePosition()>=mBlackNumList.size()-1
+                            && !mIsLoad) {
+                        // 正在请求数据时，设置mIsLoad为true，防止重复加载
+                        // mIsLoad = true;
+                        // 如果数据库中的总的条目数大于已有列表中的条目数，则再次请求数据
+                        if (mDBCount > mBlackNumList.size()) {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // 获取操作数据库列表的对象
+                                    mBlackNumDao = BlackNumberDao.getInstance(getApplicationContext());
+                                    // 一次查询数据库表中的部分数据（20条）
+                                    List<BlackNumberInfo> moreNumList = mBlackNumDao.findPart(mBlackNumList.size());
+                                    mBlackNumList.addAll(moreNumList);
+                                    mHandler.sendEmptyMessage(0);
+                                    // 请求数据完成后，重新设置mIsLoad为false
+                                    // mIsLoad = false;
+                                }
+                            }).start();
+                        }
+                    }
+                }
+            }
+
+            // 黑名单列表滚动时调用
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+            }
+        });
     }
 
     /**
@@ -96,6 +151,8 @@ public class CommunicationGuardActivity extends AppCompatActivity {
         dialog.setView(dialogView, 0, 0, 0, 0);
         final EditText inputHookNum = (EditText) dialogView.findViewById(R.id.input_hook_number);
         RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.radio_group);
+        // 默认点击RadioGroup时，模式为1
+        mode = 1;
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -122,7 +179,7 @@ public class CommunicationGuardActivity extends AppCompatActivity {
                 String inputHookPhoneNum = inputHookNum.getText().toString();
                 if (!TextUtils.isEmpty(inputHookPhoneNum)) {
                     // 添加到黑名单列表中
-                    mBlackNumDao.add(inputHookPhoneNum, mode + "");
+                    mBlackNumDao.insert(inputHookPhoneNum, mode + "");
                     BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
                     blackNumberInfo.number = inputHookPhoneNum;
                     blackNumberInfo.mode = mode + "";
@@ -147,7 +204,6 @@ public class CommunicationGuardActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
     /**
      * 自定义黑名单列表的适配器
      */
@@ -170,22 +226,20 @@ public class CommunicationGuardActivity extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            View view = null;
             ViewHolder viewHolder = null;
             if (convertView == null) {
-                view = View.inflate(getApplicationContext(), R.layout.black_num_list_item, null);
+                convertView = View.inflate(getApplicationContext(), R.layout.black_num_list_item, null);
                 viewHolder = new ViewHolder();
-                viewHolder.blackPhoneNumText = (TextView) view.findViewById(R.id.black_phone_num);
-                viewHolder.blackPhoneModeText = (TextView) view.findViewById(R.id.black_phone_mode);
-                viewHolder.deleteBlackNum = (ImageView) view.findViewById(R.id.delete_black_item);
-                view.setTag(viewHolder);
+                viewHolder.blackPhoneNumText = (TextView) convertView.findViewById(R.id.black_phone_num);
+                viewHolder.blackPhoneModeText = (TextView) convertView.findViewById(R.id.black_phone_mode);
+                viewHolder.deleteBlackNum = (ImageView) convertView.findViewById(R.id.delete_black_item);
+                convertView.setTag(viewHolder);
             } else {
-                view = convertView;
-                viewHolder = (ViewHolder) view.getTag();
+                viewHolder = (ViewHolder) convertView.getTag();
             }
             viewHolder.blackPhoneNumText.setText(mBlackNumList.get(position).getNumber());
-            int mode = Integer.parseInt(mBlackNumList.get(position).getMode());
-            switch (mode) {
+            int storagedMode = Integer.parseInt(mBlackNumList.get(position).getMode());
+            switch (storagedMode) {
                 case 1:
                     viewHolder.blackPhoneModeText.setText("拦截电话");
                     break;
@@ -209,13 +263,16 @@ public class CommunicationGuardActivity extends AppCompatActivity {
                     }
                 }
             });
-            return view;
+            return convertView;
         }
+    }
 
-        class ViewHolder {
-            TextView blackPhoneNumText;
-            TextView blackPhoneModeText;
-            ImageView deleteBlackNum;
-        }
+    /**
+     * 静态类，减少类对象的创建次数
+     */
+    static class ViewHolder {
+        TextView blackPhoneNumText;
+        TextView blackPhoneModeText;
+        ImageView deleteBlackNum;
     }
 }

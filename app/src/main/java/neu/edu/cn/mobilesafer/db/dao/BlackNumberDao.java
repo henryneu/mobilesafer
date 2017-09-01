@@ -42,18 +42,14 @@ public class BlackNumberDao {
      * @param mode   拦截模式
      * @return 是否添加成功
      */
-    public void add(String number, String mode) {
+    public void insert(String number, String mode) {
         // 获取到可写的数据库
         SQLiteDatabase db = mBlackNumberDBOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("number", number);
         values.put("mode", mode);
         long rowId = db.insert("blacknum", null, values);
-//        if (rowId == -1) {
-//            return false;
-//        } else {
-//            return true;
-//        }
+        db.close();
     }
 
     /**
@@ -65,36 +61,29 @@ public class BlackNumberDao {
     public void delete(String number) {
         // 获取到可写的数据库
         SQLiteDatabase db = mBlackNumberDBOpenHelper.getWritableDatabase();
-        int rowId = db.delete("blacknum", "number = ?", new String[]{number});
-//        if (rowId == 0) {
-//            return false;
-//        } else {
-//            return true;
-//        }
+        db.delete("blacknum", "number = ?", new String[]{number});
+        db.close();
     }
 
     /**
      * 修改黑名单号码的拦截模式
      *
-     * @param number  号码
-     * @param newmode 新的拦截模式
+     * @param number 号码
+     * @param mode   新的拦截模式
      * @return 是否修改成功
      */
-    public boolean updateNumMode(String number, String newmode) {
+    public void update(String number, String mode) {
         // 获取到可写的数据库
         SQLiteDatabase db = mBlackNumberDBOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("mode", newmode);
-        int rownumber = db.update("blacknum", values, "number = ?", new String[]{number});
-        if (rownumber == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        values.put("mode", mode);
+        db.update("blacknum", values, "number = ?", new String[]{number});
+        db.close();
     }
 
     /**
      * 查询黑名单表中的所有电话信息
+     *
      * @return 查找到的所有电话信息
      */
     public List<BlackNumberInfo> findAll() {
@@ -111,5 +100,62 @@ public class BlackNumberDao {
         cursor.close();
         db.close();
         return blackNumberList;
+    }
+
+    /**
+     * 查询黑名单表中的部分电话信息（20条）
+     *
+     * @return 查找到的部分电话信息
+     */
+    public List<BlackNumberInfo> findPart(int index) {
+        // 获取到可写的数据库
+        SQLiteDatabase db = mBlackNumberDBOpenHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select number, mode from blacknum order by _id desc limit ?, 20;", new String[]{index + ""});
+        List<BlackNumberInfo> blackNumberList = new ArrayList<BlackNumberInfo>();
+        while (cursor.moveToNext()) {
+            BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
+            blackNumberInfo.setNumber(cursor.getString(0));
+            blackNumberInfo.setMode(cursor.getString(1));
+            blackNumberList.add(blackNumberInfo);
+        }
+        cursor.close();
+        db.close();
+        return blackNumberList;
+    }
+
+    /**
+     * 查询数据表中的总条数
+     *
+     * @return 返回数据表中的条目数
+     */
+    public int getCount() {
+        // 获取到可写的数据库
+        SQLiteDatabase db = mBlackNumberDBOpenHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select count(*) from blacknum", null);
+        int count = 0;
+        if (cursor.moveToNext()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    /**
+     * 查询数据表待查询号码的拦截模式
+     *
+     * @return 返回数据表中查询号码的拦截模式
+     */
+    public int getMode(String phoneNumber) {
+        // 获取到可写的数据库
+        SQLiteDatabase db = mBlackNumberDBOpenHelper.getWritableDatabase();
+        Cursor cursor = db.query("blacknum", new String[]{"mode"}, "number = ?", new String[]{phoneNumber}, null, null, null);
+        int mode = 0;
+        if (cursor.moveToNext()) {
+            mode = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return mode;
     }
 }

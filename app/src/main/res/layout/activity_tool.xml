@@ -19,6 +19,7 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/phone_sms_back_up"
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:background="@drawable/list_selector"

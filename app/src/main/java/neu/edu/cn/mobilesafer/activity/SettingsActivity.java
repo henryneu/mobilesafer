@@ -10,6 +10,7 @@ import android.view.View;
 
 import neu.edu.cn.mobilesafer.R;
 import neu.edu.cn.mobilesafer.service.AddressService;
+import neu.edu.cn.mobilesafer.service.InterceptService;
 import neu.edu.cn.mobilesafer.ui.SettingsClickItem;
 import neu.edu.cn.mobilesafer.ui.SettingsItem;
 import neu.edu.cn.mobilesafer.util.ConstantValues;
@@ -28,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity {
     private SettingsClickItem mSettingsClickItem;
     // 设置Toast所在位置
     private SettingsClickItem mToastLocationClickItem;
+    // 设置是否开启黑名单拦截
+    private SettingsItem mSettingsItemIntercept;
 
     private final String[] desItems = {"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"};
 
@@ -43,6 +46,8 @@ public class SettingsActivity extends AppCompatActivity {
         initToastStyleItemView();
         // 初始化自定义Toast的位置拖拽视图
         initToastLocationItemView();
+        // 初始化黑名单拦截选项视图
+        initInterceptBlackItemView();
     }
 
     /**
@@ -138,6 +143,30 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SettingsActivity.this, ToastLocationActivity.class));
+            }
+        });
+    }
+
+    /**
+     * 初始化黑名单拦截选项视图
+     */
+    private void initInterceptBlackItemView() {
+        // 是否打开黑名单拦截开关的Item
+        mSettingsItemIntercept = (SettingsItem) findViewById(R.id.settings_item_intercept);
+        // 查看所给服务是否正在运行
+        boolean isRunning = SmsServiceUtil.isRunning(this, "neu.edu.cn.mobilesafer.service.InterceptService");
+        Log.i(tag, "isRunning:" + isRunning);
+        mSettingsItemIntercept.setCheck(isRunning);
+        mSettingsItemIntercept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isCheck = mSettingsItemIntercept.IsCheck();
+                mSettingsItemIntercept.setCheck(!isCheck);
+                if (isCheck) {
+                    stopService(new Intent(SettingsActivity.this, InterceptService.class));
+                } else {
+                    startService(new Intent(SettingsActivity.this, InterceptService.class));
+                }
             }
         });
     }
