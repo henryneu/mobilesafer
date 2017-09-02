@@ -30,6 +30,12 @@
         android:text="短信备份"
         android:textSize="20sp" />
 
+    <!--<ProgressBar-->
+        <!--android:id="@+id/back_up_sms_progress"-->
+        <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dip"
