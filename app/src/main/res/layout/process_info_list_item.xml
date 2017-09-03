@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/process_info_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/main_icon" />
+
+    <TextView
+        android:id="@+id/process_info_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/process_info_icon"
+        android:text="应用名称"
+        android:textColor="#000000"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/process_info_used_memory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/process_info_name"
+        android:layout_toRightOf="@id/process_info_icon"
+        android:text="系统进程"
+        android:textColor="#000000"
+        android:textSize="18sp"/>
+
+    <CheckBox
+        android:id="@+id/process_info_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"/>
+
+</RelativeLayout>

@@ -1,6 +1,9 @@
 package neu.edu.cn.mobilesafer.activity;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -29,6 +32,7 @@ import java.util.List;
 import neu.edu.cn.mobilesafer.R;
 import neu.edu.cn.mobilesafer.db.dao.AppInfo;
 import neu.edu.cn.mobilesafer.engine.AppInfoProvider;
+import neu.edu.cn.mobilesafer.util.ToastUtil;
 
 public class AppManagerActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -53,6 +57,8 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
     private List<AppInfo> mSystemAppInfoList;
     // 应用信息展示所需的适配器
     private AppInfoAdapter mAppInfoAdapter;
+    // 弹出的窗体对象
+    private PopupWindow mPopupWindow;
 
     private AppInfo mAppInfo;
 
@@ -65,7 +71,9 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
             } else {
                 mAppInfoAdapter.notifyDataSetChanged();
             }
-            mTitleDesText.setText("用户应用(" + mCustomerAppInfoList.size() + ")");
+            if (mTitleDesText != null && mCustomerAppInfoList != null) {
+                mTitleDesText.setText("用户应用(" + mCustomerAppInfoList.size() + ")");
+            }
             super.handleMessage(msg);
         }
     };
@@ -84,6 +92,13 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
      * 初始化列表项数据
      */
     private void initData() {
+        getData();
+    }
+
+    /**
+     * 获取数据库列表中的数据
+     */
+    private void getData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -161,6 +176,7 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
 
     /**
      * 展示popup弹出框
+     *
      * @param view 被点中的listView中的item
      */
     private void showPopupWindow(View view) {
@@ -187,12 +203,12 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
         animationSet.addAnimation(alphaAnimation);
         animationSet.addAnimation(scaleAnimation);
         // 创建popupWindow对象
-        PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT,
+        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true);
         // 设置透明背景
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable());
         // 指定弹出的窗体的位置
-        popupWindow.showAsDropDown(view, 150, -view.getHeight());
+        mPopupWindow.showAsDropDown(view, 150, -view.getHeight());
         // 开启动画集
         popupView.startAnimation(animationSet);
     }
@@ -213,7 +229,46 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.popup_view_unstall:
+                if (mAppInfo.isSystem) {
+                    ToastUtil.show(getApplicationContext(), "此应用不能被卸载");
+                } else {
+                    // 卸载程序
+                    Intent intent = new Intent("android.intent.action.DELETE");
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    intent.setData(Uri.parse("package:" + mAppInfo.getPackageName()));
+                    startActivity(intent);
+                }
+                break;
+            case R.id.popup_view_start:
+                // 开启程序
+                PackageManager packageManager = getPackageManager();
+                // 获取开启指定包名的应用的intent
+                Intent intentForPackage = packageManager.getLaunchIntentForPackage(mAppInfo.getPackageName());
+                if (intentForPackage != null) {
+                    startActivity(intentForPackage);
+                } else {
+                    ToastUtil.show(getApplicationContext(), "此应用不能打开");
+                }
+                break;
+            case R.id.popup_view_share:
+                // 分享应用
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, "分享一个应用,应用名称为"+mAppInfo.getAppName());
+                intent.setType("text/plain");
+                startActivity(intent);
+                break;
+        }
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+    }
 
+    @Override
+    protected void onResume() {
+        getData();
+        super.onResume();
     }
 
     /**
@@ -267,7 +322,7 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
                 if (convertView == null) {
                     convertView = View.inflate(getApplicationContext(), R.layout.app_info_title_item, null);
                     viewTitleHolder = new ViewTitleHolder();
-                    viewTitleHolder.titleTextView = (TextView) convertView.findViewById(R.id.app_info_title_view);
+                    viewTitleHolder.titleTextView = (TextView) convertView.findViewById(R.id.app_process_info_title_view);
                     convertView.setTag(viewTitleHolder);
                 } else {
                     viewTitleHolder = (ViewTitleHolder) convertView.getTag();

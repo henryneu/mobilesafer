@@ -79,6 +79,11 @@ public class HomeActivity extends AppCompatActivity {
                         Intent intentAppManager = new Intent(HomeActivity.this, AppManagerActivity.class);
                         startActivity(intentAppManager);
                         break;
+                    case 3:
+                        // 点击进入进程管理模块
+                        Intent intentProgressManager = new Intent(HomeActivity.this, ProgressManagerActivity.class);
+                        startActivity(intentProgressManager);
+                        break;
                     case 7:
                         // 点击进入高级工具选项
                         Intent intentTool = new Intent(HomeActivity.this, ToolActivity.class);
