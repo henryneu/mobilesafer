@@ -167,4 +167,17 @@ public class ProgressInfoProvider {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         activityManager.killBackgroundProcesses(processInfo.packageName);
     }
+
+    /**
+     * 杀死所有进程信息
+     *
+     * @param context 上下文环境
+     */
+    public static void killAll (Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> processInfoLists = activityManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : processInfoLists) {
+            activityManager.killBackgroundProcesses(runningAppProcessInfo.processName);
+        }
+    }
 }

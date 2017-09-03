@@ -39,6 +39,10 @@ public class ToolActivity extends AppCompatActivity {
         initQueryAddressView();
         // 初始化短信备份itemView
         initBackUpSmsView();
+        // 初始化常用号码查询
+        initCommonNumberView();
+        // 初始化程序锁
+        initProgressLockView();
     }
 
     /**
@@ -102,5 +106,26 @@ public class ToolActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 初始化常用号码查询
+     */
+    private void initCommonNumberView() {
+        TextView commonNumQuery = (TextView) findViewById(R.id.common_number_query);
+        commonNumQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ToolActivity.this, CommonNumberActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 初始化程序锁
+     */
+    private void initProgressLockView() {
+        TextView progressLock = (TextView) findViewById(R.id.progress_lock);
     }
 }

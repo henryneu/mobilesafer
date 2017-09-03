@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -112,14 +113,36 @@ public class SplashActivity extends AppCompatActivity {
         mRelativeLayout.startAnimation(animation);
         // 初始化数据库
         initDB();
+
+        // 初始时生成快捷方式
+        initShortCut();
+    }
+
+    /**
+     * 初始时生成快捷方式
+     */
+    private void initShortCut() {
+        // 创建一个意图，带有创建快捷方式的action
+        Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        // 快捷方式中要用到的名字
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "手机安全卫士");
+        // 快捷方式中要用到的图标
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_my));
+        // 创建快捷方式启动时用到的intent
+        Intent shortCutIntent = new Intent("android.intent.action.Home");
+        shortCutIntent.addCategory("android.intent.category.DEFAULT");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortCutIntent);
+        sendBroadcast(intent);
     }
 
     /**
      * 初始化数据库
      */
     private void initDB() {
-        // 初始化来点归属地数据库,并将数据库拷贝到应用Files下
+        // 初始化来电归属地数据库,并将数据库拷贝到应用Files下
         initAddressDB("address.db");
+        // 初始化常用号码数据库,并将数据库拷贝到应用Files下
+        initAddressDB("commonnum.db");
     }
 
     /**

@@ -50,4 +50,9 @@ public class ConstantValues {
      * 触摸事件结束时当前View所在位置左上角的Y值
      */
     public static final String LOCATION_Y = "location_y";
+
+    /**
+     * 显示或隐藏系统进程
+     */
+    public static final String SHOW_SYSTEM_PROCESS = "show_system_process";
 }

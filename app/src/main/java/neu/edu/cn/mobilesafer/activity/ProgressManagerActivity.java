@@ -1,5 +1,6 @@
 package neu.edu.cn.mobilesafer.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +23,8 @@ import java.util.List;
 import neu.edu.cn.mobilesafer.R;
 import neu.edu.cn.mobilesafer.db.dao.ProcessInfo;
 import neu.edu.cn.mobilesafer.engine.ProgressInfoProvider;
+import neu.edu.cn.mobilesafer.util.ConstantValues;
+import neu.edu.cn.mobilesafer.util.SharePreferenceUtil;
 import neu.edu.cn.mobilesafer.util.ToastUtil;
 
 public class ProgressManagerActivity extends AppCompatActivity implements View.OnClickListener {
@@ -215,8 +218,18 @@ public class ProgressManagerActivity extends AppCompatActivity implements View.O
                 break;
             case R.id.progress_set:
                 // 设置按钮
+                Intent intent = new Intent(ProgressManagerActivity.this, ProgressSettingActivity.class);
+                startActivityForResult(intent, 0);
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mProgressInfoAdapter != null) {
+            mProgressInfoAdapter.notifyDataSetChanged();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
@@ -335,7 +348,13 @@ public class ProgressManagerActivity extends AppCompatActivity implements View.O
 
         @Override
         public int getCount() {
-            return mSystemProcessInfoList.size() + mCustomerProcessInfoList.size() + 2;
+            boolean isShowSystemProcess = SharePreferenceUtil.getBooleanFromSharePreference(getApplicationContext(),
+                    ConstantValues.SHOW_SYSTEM_PROCESS, false);
+            if (isShowSystemProcess) {
+                return mCustomerProcessInfoList.size() + mSystemProcessInfoList.size() + 2;
+            } else {
+                return mCustomerProcessInfoList.size() + 1;
+            }
         }
 
         @Override

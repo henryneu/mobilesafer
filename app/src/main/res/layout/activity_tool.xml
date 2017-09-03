@@ -23,10 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:background="@drawable/list_selector"
-        android:clickable="true"
         android:drawableLeft="@android:drawable/btn_star_big_on"
         android:gravity="center"
-        android:onClick="smsBackup"
         android:text="短信备份"
         android:textSize="20sp" />
 
@@ -37,24 +35,22 @@
         <!--android:layout_height="wrap_content" />-->
 
     <TextView
+        android:id="@+id/common_number_query"
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:background="@drawable/list_selector"
-        android:clickable="true"
         android:drawableLeft="@android:drawable/btn_star_big_on"
         android:gravity="center"
-        android:onClick="smsRestore"
-        android:text="短信还原"
+        android:text="常用号码查询"
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/progress_lock"
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:background="@drawable/list_selector"
-        android:clickable="true"
         android:drawableLeft="@android:drawable/btn_star_big_on"
         android:gravity="center"
-        android:onClick="openAppLock"
         android:text="程序锁"
         android:textSize="20sp" />
 
