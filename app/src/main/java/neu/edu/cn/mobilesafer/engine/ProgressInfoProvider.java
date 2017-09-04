@@ -177,6 +177,10 @@ public class ProgressInfoProvider {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> processInfoLists = activityManager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : processInfoLists) {
+            // 自己不能杀死自己的进程
+            if (runningAppProcessInfo.processName.equals(context.getPackageName())) {
+                continue;
+            }
             activityManager.killBackgroundProcesses(runningAppProcessInfo.processName);
         }
     }

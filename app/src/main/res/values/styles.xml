@@ -43,5 +43,10 @@
         <item name="android:drawableRight">@drawable/next</item>
         <item name="android:textSize">18sp</item>
     </style>
+    <!--桌面窗体小部件的文本样式-->
+    <style name="widget_text">
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">#ff000000</item>
+    </style>
 
 </resources>

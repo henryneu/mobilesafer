@@ -127,5 +127,12 @@ public class ToolActivity extends AppCompatActivity {
      */
     private void initProgressLockView() {
         TextView progressLock = (TextView) findViewById(R.id.progress_lock);
+        progressLock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ToolActivity.this, ProcessLockActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

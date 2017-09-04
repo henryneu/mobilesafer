@@ -113,9 +113,10 @@ public class SplashActivity extends AppCompatActivity {
         mRelativeLayout.startAnimation(animation);
         // 初始化数据库
         initDB();
-
-        // 初始时生成快捷方式
-        initShortCut();
+        if (!SharePreferenceUtil.getBooleanFromSharePreference(getApplicationContext(), ConstantValues.HAS_SHORT_CUT, false)) {
+            // 初始时生成快捷方式
+            initShortCut();
+        }
     }
 
     /**
@@ -133,6 +134,7 @@ public class SplashActivity extends AppCompatActivity {
         shortCutIntent.addCategory("android.intent.category.DEFAULT");
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortCutIntent);
         sendBroadcast(intent);
+        SharePreferenceUtil.putBooleanToSharePreference(getApplicationContext(), ConstantValues.HAS_SHORT_CUT, true);
     }
 
     /**

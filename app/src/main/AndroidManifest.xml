@@ -70,6 +70,7 @@
         <activity android:name=".activity.ProgressManagerActivity" />
         <activity android:name=".activity.ProgressSettingActivity" />
         <activity android:name=".activity.CommonNumberActivity" />
+        <activity android:name=".activity.ProcessLockActivity" />
 
         <receiver
             android:name=".receiver.RootReceiver"
@@ -89,6 +90,16 @@
         <receiver
             android:name=".receiver.DeviceAdmin"
             android:enabled="true" />
+        <!-- 配置手机桌面的窗体小部件 -->
+        <receiver android:name=".receiver.ProcessWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/process_widget_provider" />
+        </receiver>
 
         <service
             android:name=".service.LocationService"
@@ -104,6 +115,10 @@
             android:exported="true" />
         <service
             android:name=".service.LockPhoneService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".service.WidgetUpdateService"
             android:enabled="true"
             android:exported="true" />
     </application>

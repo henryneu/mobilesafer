@@ -55,4 +55,9 @@ public class ConstantValues {
      * 显示或隐藏系统进程
      */
     public static final String SHOW_SYSTEM_PROCESS = "show_system_process";
+
+    /**
+     * 是否已有桌面快捷方式
+     */
+    public static final String HAS_SHORT_CUT = "has_short_cut";
 }
