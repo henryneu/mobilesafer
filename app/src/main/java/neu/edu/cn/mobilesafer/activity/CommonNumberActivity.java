@@ -20,7 +20,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import neu.edu.cn.mobilesafer.R;
-import neu.edu.cn.mobilesafer.engine.CommonNumDao;
+import neu.edu.cn.mobilesafer.db.dao.CommonNumDao;
 
 public class CommonNumberActivity extends AppCompatActivity {
     // 可扩展的ListView，用于展示查询到号码

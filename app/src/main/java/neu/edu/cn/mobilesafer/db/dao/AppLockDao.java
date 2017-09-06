@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,13 @@ import neu.edu.cn.mobilesafer.db.AppLockDBOpenHelper;
 
 public class AppLockDao {
 
+    private Context context;
+
     private AppLockDBOpenHelper mAppLockDBOpenHelper;
 
     // 私有化构造方法
     private AppLockDao(Context context) {
+        this.context = context;
         mAppLockDBOpenHelper = new AppLockDBOpenHelper(context);
     }
 
@@ -46,6 +50,8 @@ public class AppLockDao {
         values.put("packagename", packageName);
         db.insert("lockedpackage", null, values);
         db.close();
+        // 内容提供器提醒数据库中数据有变化,须注册内容观察者
+        context.getContentResolver().notifyChange(Uri.parse("content://applock/change"), null);
     }
 
     /**
@@ -58,6 +64,8 @@ public class AppLockDao {
         SQLiteDatabase db = mAppLockDBOpenHelper.getWritableDatabase();
         db.delete("lockedpackage", "packagename = ?", new String[]{packageName});
         db.close();
+        // 内容提供器提醒数据库中数据有变化,须注册内容观察者
+        context.getContentResolver().notifyChange(Uri.parse("content://applock/change"), null);
     }
 
     /**

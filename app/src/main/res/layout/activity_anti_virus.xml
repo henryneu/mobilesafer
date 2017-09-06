@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/TitleText"
+        android:text="手机杀毒" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_scanner_malware" />
+
+            <ImageView
+                android:id="@+id/act_scanning_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/act_scanning_03" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/current_scanning_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在杀毒"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+
+            <ProgressBar
+                android:id="@+id/scanning_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:progressDrawable="@drawable/progress_back_ground"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+        <!--根据杀毒的进度条扫描进度,动态添加TextView-->
+        <LinearLayout
+            android:id="@+id/linear_anti_add_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

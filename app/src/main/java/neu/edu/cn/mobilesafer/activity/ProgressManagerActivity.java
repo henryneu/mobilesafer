@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import neu.edu.cn.mobilesafer.R;
-import neu.edu.cn.mobilesafer.db.dao.ProcessInfo;
+import neu.edu.cn.mobilesafer.db.ProcessInfo;
 import neu.edu.cn.mobilesafer.engine.ProgressInfoProvider;
 import neu.edu.cn.mobilesafer.util.ConstantValues;
 import neu.edu.cn.mobilesafer.util.SharePreferenceUtil;

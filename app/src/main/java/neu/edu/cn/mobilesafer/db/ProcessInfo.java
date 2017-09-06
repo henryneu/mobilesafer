@@ -1,4 +1,4 @@
-package neu.edu.cn.mobilesafer.db.dao;
+package neu.edu.cn.mobilesafer.db;
 
 import android.graphics.drawable.Drawable;
 

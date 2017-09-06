@@ -52,4 +52,14 @@
         mobilesafer:deson="黑名单拦截已开启">
     </neu.edu.cn.mobilesafer.ui.SettingsItem>
 
+    <neu.edu.cn.mobilesafer.ui.SettingsItem
+        xmlns:mobilesafer="http://schemas.android.com/apk/res/neu.edu.cn.mobilesafer"
+        android:id="@+id/settings_item_lock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        mobilesafer:title="程序锁设置"
+        mobilesafer:desoff="程序锁已关闭"
+        mobilesafer:deson="程序锁已开启">
+    </neu.edu.cn.mobilesafer.ui.SettingsItem>
+
 </LinearLayout>

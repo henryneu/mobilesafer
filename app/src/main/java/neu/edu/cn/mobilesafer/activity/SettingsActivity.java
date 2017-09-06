@@ -10,6 +10,7 @@ import android.view.View;
 
 import neu.edu.cn.mobilesafer.R;
 import neu.edu.cn.mobilesafer.service.AddressService;
+import neu.edu.cn.mobilesafer.service.AppLockService;
 import neu.edu.cn.mobilesafer.service.InterceptService;
 import neu.edu.cn.mobilesafer.ui.SettingsClickItem;
 import neu.edu.cn.mobilesafer.ui.SettingsItem;
@@ -31,6 +32,8 @@ public class SettingsActivity extends AppCompatActivity {
     private SettingsClickItem mToastLocationClickItem;
     // 设置是否开启黑名单拦截
     private SettingsItem mSettingsItemIntercept;
+    // 设置是否开启程序锁
+    protected SettingsItem mSettingsItemLock;
 
     private final String[] desItems = {"半透明", "活力橙", "卫士蓝", "金属灰", "苹果绿"};
 
@@ -48,6 +51,8 @@ public class SettingsActivity extends AppCompatActivity {
         initToastLocationItemView();
         // 初始化黑名单拦截选项视图
         initInterceptBlackItemView();
+        // 初始化程序锁选项视图
+        initProgressLockItemView();
     }
 
     /**
@@ -166,6 +171,30 @@ public class SettingsActivity extends AppCompatActivity {
                     stopService(new Intent(SettingsActivity.this, InterceptService.class));
                 } else {
                     startService(new Intent(SettingsActivity.this, InterceptService.class));
+                }
+            }
+        });
+    }
+
+    /**
+     * 初始化黑名单拦截选项视图
+     */
+    private void initProgressLockItemView() {
+        // 是否打开黑名单拦截开关的Item
+        mSettingsItemLock = (SettingsItem) findViewById(R.id.settings_item_lock);
+        // 查看所给服务是否正在运行
+        boolean isRunning = SmsServiceUtil.isRunning(this, "neu.edu.cn.mobilesafer.service.AppLockService");
+        Log.i(tag, "isRunning:" + isRunning);
+        mSettingsItemLock.setCheck(isRunning);
+        mSettingsItemLock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isCheck = mSettingsItemLock.IsCheck();
+                mSettingsItemLock.setCheck(!isCheck);
+                if (isCheck) {
+                    stopService(new Intent(SettingsActivity.this, AppLockService.class));
+                } else {
+                    startService(new Intent(SettingsActivity.this, AppLockService.class));
                 }
             }
         });

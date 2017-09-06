@@ -84,6 +84,16 @@ public class HomeActivity extends AppCompatActivity {
                         Intent intentProgressManager = new Intent(HomeActivity.this, ProgressManagerActivity.class);
                         startActivity(intentProgressManager);
                         break;
+                    case 5:
+                        // 点击进入杀毒模块
+                        Intent intentAntiVirus = new Intent(HomeActivity.this, AntiVirusActivity.class);
+                        startActivity(intentAntiVirus);
+                        break;
+                    case 6:
+                        // 点击进入杀毒模块
+                        Intent intentOptimizeClear = new Intent(HomeActivity.this, OptimizeClearActivity.class);
+                        startActivity(intentOptimizeClear);
+                        break;
                     case 7:
                         // 点击进入高级工具选项
                         Intent intentTool = new Intent(HomeActivity.this, ToolActivity.class);

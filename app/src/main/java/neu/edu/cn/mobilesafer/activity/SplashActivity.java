@@ -142,9 +142,11 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void initDB() {
         // 初始化来电归属地数据库,并将数据库拷贝到应用Files下
-        initAddressDB("address.db");
+        copyDB("address.db");
         // 初始化常用号码数据库,并将数据库拷贝到应用Files下
-        initAddressDB("commonnum.db");
+        copyDB("commonnum.db");
+        // 初始化病毒数据库,并将数据库拷贝到应用Files下
+        copyDB("antivirus.db");
     }
 
     /**
@@ -152,7 +154,7 @@ public class SplashActivity extends AppCompatActivity {
      *
      * @param databaseName 数据库的名字
      */
-    private void initAddressDB(String databaseName) {
+    private void copyDB(String databaseName) {
         // 获取应用所在的文件路径
         File filePath = getFilesDir();
         // 创建一个新的文件

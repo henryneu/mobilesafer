@@ -6,6 +6,8 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -52,6 +54,8 @@ public class ProcessLockActivity extends AppCompatActivity {
     private AppLockAdapter mAppUnLockAdapter;
     // 当前手机安装的所有应用集合
     private List<AppInfo> mAppInfoList;
+    // 平移动画
+    private TranslateAnimation mAnimation;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -75,6 +79,8 @@ public class ProcessLockActivity extends AppCompatActivity {
         initView();
         // 初始化数据
         initData();
+        // 初始化平移动画
+        initAnimation();
     }
 
     /**
@@ -117,17 +123,19 @@ public class ProcessLockActivity extends AppCompatActivity {
         mLinearLockedListView = (ListView) findViewById(R.id.locked_progress_list);
         mLinearUnlockedText = (TextView) findViewById(R.id.unlocked_title_text);
         mLinearLockedText = (TextView) findViewById(R.id.locked_title_text);
-
+        // 点击未加锁按钮切换到已加锁列表
         mUnlockedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLinearUnLockedLayout.setVisibility(View.VISIBLE);
                 mLinearLockedLayout.setVisibility(View.GONE);
+                mLinearUnLockedLayout.setVisibility(View.VISIBLE);
                 mUnlockedButton.setBackgroundResource(R.drawable.tab_left_pressed);
                 mLockedButton.setBackgroundResource(R.drawable.tab_right_default);
+                // 切换已加锁和未加锁表单时,刷新数据适配器
+                mAppUnLockAdapter.notifyDataSetChanged();
             }
         });
-
+        // 点击已加锁按钮切换到未加锁列表
         mLockedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,8 +143,23 @@ public class ProcessLockActivity extends AppCompatActivity {
                 mLinearLockedLayout.setVisibility(View.VISIBLE);
                 mLockedButton.setBackgroundResource(R.drawable.tab_right_pressed);
                 mUnlockedButton.setBackgroundResource(R.drawable.tab_left_default);
+                // 切换已加锁和未加锁表单时,刷新数据适配器
+                mAppLockedAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    /**
+     * 初始化平移动画
+     */
+    private void initAnimation() {
+        // 平移动画，X轴相对于自身平移自身最大宽度，Y轴相对于自身保持不变
+        mAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 1,
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0);
+        mAnimation.setDuration(300);
     }
 
     class AppLockAdapter extends BaseAdapter {
@@ -182,17 +205,53 @@ public class ProcessLockActivity extends AppCompatActivity {
                 viewHolder.appLockNameText = (TextView) convertView.findViewById(R.id.app_lock_name);
                 viewHolder.appLockImage = (ImageView) convertView.findViewById(R.id.app_lock_image);
                 convertView.setTag(viewHolder);
+
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            AppInfo appinfo = getItem(position);
+            final View view = convertView;
+            final AppInfo appinfo = getItem(position);
             viewHolder.appLockIcon.setBackgroundDrawable(appinfo.icon);
             viewHolder.appLockNameText.setText(appinfo.appName);
+            // 由已加锁或未加锁数据适配器，设置程序所对应图片
             if (isLock) {
                 viewHolder.appLockImage.setImageResource(R.drawable.lock);
             } else {
                 viewHolder.appLockImage.setImageResource(R.drawable.unlock);
             }
+            viewHolder.appLockImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // 点击之后开启平移动画,并设置动画监听事件
+                    view.startAnimation(mAnimation);
+                    mAnimation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            if (isLock) {
+                                // 已加锁,已加锁列表移除一个，未加锁列表增加一个
+                                mLockedAppList.remove(appinfo);
+                                mUnLockedAppList.add(0, appinfo);
+                                mAppLockDao.delete(appinfo.packageName);
+                                mAppLockedAdapter.notifyDataSetChanged();
+                            } else {
+                                // 未加锁,未加锁列表移除一个，已加锁列表增加一个
+                                mLockedAppList.add(0, appinfo);
+                                mUnLockedAppList.remove(appinfo);
+                                mAppLockDao.insert(appinfo.packageName);
+                                mAppUnLockAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+                    });
+                }
+            });
             return convertView;
         }
     }

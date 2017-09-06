@@ -1,4 +1,4 @@
-package neu.edu.cn.mobilesafer.engine;
+package neu.edu.cn.mobilesafer.db.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

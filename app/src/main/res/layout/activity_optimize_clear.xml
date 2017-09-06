@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TitleText"
+            android:gravity="left"
+            android:text="缓存清理" />
+
+        <Button
+            android:id="@+id/optimize_clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="一键清理"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/optimize_clear_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/progress_back_ground"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
+
+    <TextView
+        android:id="@+id/scanning_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="18sp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+        <!--根据扫描的进度条扫描进度,动态添加View-->
+        <LinearLayout
+            android:id="@+id/linear_optimize_add_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

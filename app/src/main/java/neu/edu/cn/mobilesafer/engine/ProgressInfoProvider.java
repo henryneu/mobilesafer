@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import neu.edu.cn.mobilesafer.R;
-import neu.edu.cn.mobilesafer.db.dao.ProcessInfo;
+import neu.edu.cn.mobilesafer.db.ProcessInfo;
 
 /**
  * Created by neuHenry on 2017/9/3.
