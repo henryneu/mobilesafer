@@ -30,13 +30,13 @@
     <!-- 创建快捷方式用到的权限 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <!--获取指定包名应用缓存信息的权限-->
+    <!-- 获取指定包名应用缓存信息的权限 -->
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
-    <!--获取清理应用缓存信息的权限-->
+    <!-- 获取清理应用缓存信息的权限 -->
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
-    <!--此权限仅限系统应用使用，无奈吧！-->
-    <!--<uses-permission android:name="android.permission.DELETE_CACHE_FILES" />-->
 
+    <!-- 此权限仅限系统应用使用，无奈吧！ -->
+    <!-- <uses-permission android:name="android.permission.DELETE_CACHE_FILES" /> -->
     <application
         android:name=".MyMobileApplication"
         android:allowBackup="true"
@@ -84,6 +84,9 @@
             android:launchMode="singleInstance" />
         <activity android:name=".activity.AntiVirusActivity" />
         <activity android:name=".activity.OptimizeClearActivity" />
+        <activity android:name=".activity.BaseOptimizeClearActivity" />
+        <activity android:name=".activity.SDCardClearActivity" />
+        <activity android:name=".activity.NetStatisticsActivity" />
 
         <receiver
             android:name=".receiver.RootReceiver"

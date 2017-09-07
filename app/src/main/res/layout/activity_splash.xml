@@ -11,7 +11,7 @@
         android:id="@+id/text_version_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="330dp"
+        android:layout_marginTop="400dp"
         android:layout_centerHorizontal="true"
         android:shadowColor="#ff0000"
         android:shadowDx="1"

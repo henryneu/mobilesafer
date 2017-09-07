@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/app_optimize_icon"
         android:text="应用名称"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="#cccccc"/>
 
     <TextView
         android:id="@+id/app_optimize_memory"
@@ -25,7 +26,8 @@
         android:layout_below="@id/app_optimize_name"
         android:layout_toRightOf="@id/app_optimize_icon"
         android:text="占用内存大小"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="#cccccc"/>
 
     <ImageView
         android:id="@+id/app_optimize_delete"

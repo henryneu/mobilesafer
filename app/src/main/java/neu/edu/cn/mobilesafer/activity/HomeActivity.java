@@ -84,14 +84,20 @@ public class HomeActivity extends AppCompatActivity {
                         Intent intentProgressManager = new Intent(HomeActivity.this, ProgressManagerActivity.class);
                         startActivity(intentProgressManager);
                         break;
+                    case 4:
+                        // 点击进入流量统计模块
+                        Intent intentNetStatistics = new Intent(HomeActivity.this, NetStatisticsActivity.class);
+                        startActivity(intentNetStatistics);
+                        break;
                     case 5:
                         // 点击进入杀毒模块
                         Intent intentAntiVirus = new Intent(HomeActivity.this, AntiVirusActivity.class);
                         startActivity(intentAntiVirus);
                         break;
                     case 6:
-                        // 点击进入杀毒模块
-                        Intent intentOptimizeClear = new Intent(HomeActivity.this, OptimizeClearActivity.class);
+                        // 点击进入缓存清理模块
+                        // Intent intentOptimizeClear = new Intent(HomeActivity.this, OptimizeClearActivity.class);
+                        Intent intentOptimizeClear = new Intent(HomeActivity.this, BaseOptimizeClearActivity.class);
                         startActivity(intentOptimizeClear);
                         break;
                     case 7:
@@ -100,8 +106,8 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(intentTool);
                         break;
                     case 8:
-                        Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
-                        startActivity(intent);
+                        Intent intentSetting = new Intent(HomeActivity.this, SettingsActivity.class);
+                        startActivity(intentSetting);
                         break;
                     default:
                         break;
